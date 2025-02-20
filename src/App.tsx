@@ -140,8 +140,8 @@ function App() {
   const responses = [];
 
 
-  const botStyle = {backgroundColor: 'MistyRose', marginLeft: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px'};
-  const userStyle = {backgroundColor: 'SeaShell', marginRight: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px'};
+  const botStyle = {backgroundColor: 'MistyRose', marginLeft: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px', fontWeight: "700", fontFamily: "'Inter', sans-serif"};
+  const userStyle = {backgroundColor: '#F7D8FFAD', marginRight: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px', fontWeight: "700", fontFamily: "'Inter', sans-serif", width: "50%"};
 
   return (
     <>
@@ -180,8 +180,8 @@ function App() {
         </div> : null}
         <div className='loading-symbol' style={{opacity: loadingOpacity}}>🌀</div>
       </div>
-      <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{ borderRadius: "30px", border: "none", width: "100%", backgroundColor: "#F5F5F5", display: 'block', height: '204px', resize: 'none'}}></textarea>
-      <button id="send-message-button" onClick={sendBotMessage} style={{width: "114px", height: "62px", backgroundColor: "#006DCC", display: 'block', color: "#FFFFFF", fontSize: "32px", fontWeight: "700", fontFamily: "'Inter', sans-serif", padding: 0}}>Reply</button>
+      <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{ fontWeight: "700", fontFamily: "'Inter', sans-serif", color: "black",fontSize: "24px",  borderRadius: "30px", border: "none", width: "100%", backgroundColor: "#F5F5F5", display: 'block', height: '204px', resize: 'none', padding: 20}}></textarea>
+      <button id="send-message-button" onClick={sendBotMessage} style={{marginTop: "10px", width: "114px", height: "62px", backgroundColor: "#006DCC", display: 'block', color: "#FFFFFF", fontSize: "32px", fontWeight: "700", fontFamily: "'Inter', sans-serif", padding: 0}}>Reply</button>
       <br></br>
       {/* <div id="bot-response" dangerouslySetInnerHTML={{ __html: botResponse }} ></div> */}
     </>
