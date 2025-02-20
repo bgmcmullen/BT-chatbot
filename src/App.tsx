@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, } from 'react';
 import './App.css'
 import { marked } from 'marked';
 import MarkdownIt from 'markdown-it';
@@ -9,6 +9,7 @@ import './index.css';
 import 'katex/dist/katex.min.css';
 import { v4 as uuidv4 } from 'uuid';
 import Header from './components/Header';
+import { ReactComponent as Dog } from './assets/dog.svg';
 
 
 
@@ -145,6 +146,23 @@ function App() {
   return (
     <>
     <Header/>
+    <div>
+      <Dog style={{paddingTop: "10px"}}/>
+    </div>
+    <h2 style={{color: "#16325C", fontFamily: "'Inter', sans-serif", fontSize: "60px" }}>Chat with Me, Let's Learn!</h2>
+    <div style={{ padding: "30px", borderRadius: "20px", backgroundColor: "#F4F1FF", color: "#37474F", fontFamily: "'Inter', sans-serif", fontSize: "24px", lineHeight: "29.05px", whiteSpace: "pre-line", fontWeight: "700" }}>
+            <p style={{marginTop: 0}}>🌟 Welcome, Explorer! 🌟</p>
+            <p>🚫 No bad words, inappropriate stuff, or links here! We only keep things fun and safe. 🌈</p>
+            <p>🔒 Your conversations are never recorded with your name, and we never ask for any personal info! 😊</p>
+
+            <p>🎤 If you can’t read yet, no worries! Use your phone’s voice-to-text, and after you say “Hi,” tap the yellow 🎵 play button to hear me! You can even send pictures! 📸 I can see them! 👀</p>
+            
+            <p><strong>NOTE:</strong> ⏰ Want no timer and no ads? Just ask your teacher or parent to <a href="#">click here</a>! 😊 You get 15 free chats with me every day! 🎉</p>
+
+            <p>📝 Ready to chat? Start by typing “Hi” 👋 or “Woof” 🐱 and we can talk about anything! Whatever we chat about stays secret—it’s never saved! 🤫</p>
+            
+            <p style={{marginBottom: 0}}>🚀 If you're a paid member, <a href="#">click here</a> to login! 🔑</p>
+        </div>
       <label htmlFor="bot-chat" style={{display: 'block'}}> Chat with our bot:</label>
       <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{display: 'block', width: '50%', height: '100px', resize: 'none'}}></textarea>
       <button id="send-message-button" onClick={sendBotMessage} style={{display: 'block'}}>Send Message</button>
