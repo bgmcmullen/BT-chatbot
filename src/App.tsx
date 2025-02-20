@@ -8,6 +8,7 @@ import rehypeKatex from 'rehype-katex';
 import './index.css';
 import 'katex/dist/katex.min.css';
 import { v4 as uuidv4 } from 'uuid';
+import Header from './components/Header';
 
 
 
@@ -143,6 +144,7 @@ function App() {
 
   return (
     <>
+    <Header/>
       <label htmlFor="bot-chat" style={{display: 'block'}}> Chat with our bot:</label>
       <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{display: 'block', width: '50%', height: '100px', resize: 'none'}}></textarea>
       <button id="send-message-button" onClick={sendBotMessage} style={{display: 'block'}}>Send Message</button>

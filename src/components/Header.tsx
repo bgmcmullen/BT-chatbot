@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-/// <reference types="vite-plugin-svgr/client" />
+// <reference types="vite-plugin-svgr/client" />
 
 import React from 'react';
 import { ReactComponent as Logo } from '../assets/BridingTechLogo.svg';
