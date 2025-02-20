@@ -163,12 +163,9 @@ function App() {
             
             <p style={{marginBottom: 0}}>🚀 If you're a paid member, <a href="#">click here</a> to login! 🔑</p>
         </div>
-      <label htmlFor="bot-chat" style={{display: 'block'}}> Chat with our bot:</label>
-      <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{display: 'block', width: '50%', height: '100px', resize: 'none'}}></textarea>
-      <button id="send-message-button" onClick={sendBotMessage} style={{display: 'block'}}>Send Message</button>
-      <br></br>
+      
 
-      <div style={{overflow: 'scroll', height: '400px', backgroundColor: 'darkgray'}}>
+      <div style={{overflow: 'scroll', height: '400px', backgroundColor: "none"}}>
         {chatHistory.map((element, index) => {
           return(<div key={index} style={element.type === 'bot' ? botStyle : userStyle}>
             <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={components}>
@@ -183,6 +180,9 @@ function App() {
         </div> : null}
         <div className='loading-symbol' style={{opacity: loadingOpacity}}>🌀</div>
       </div>
+      <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{ borderRadius: "30px", border: "none", width: "100%", backgroundColor: "#F5F5F5", display: 'block', height: '204px', resize: 'none'}}></textarea>
+      <button id="send-message-button" onClick={sendBotMessage} style={{width: "114px", height: "62px", backgroundColor: "#006DCC", display: 'block', color: "#FFFFFF", fontSize: "32px", fontWeight: "700", fontFamily: "'Inter', sans-serif", padding: 0}}>Reply</button>
+      <br></br>
       {/* <div id="bot-response" dangerouslySetInnerHTML={{ __html: botResponse }} ></div> */}
     </>
   )
