@@ -1,7 +1,5 @@
-import { useState, useEffect, } from 'react';
+import { useState, useEffect, AnchorHTMLAttributes, DetailedHTMLProps } from 'react';
 import './App.css'
-import { marked } from 'marked';
-import MarkdownIt from 'markdown-it';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -18,7 +16,6 @@ function App() {
   const [botTextArea, setBotTextArea] = useState("");
   const [botResponse, setBotResponse] = useState("");
   const [chatHistory, setChatHistory] = useState<{type: string, text: string}[]>([]);
-  const [botText, setBotText] = useState("");
   const [loadingOpacity, setLoadingOpacity] = useState(0);
   const [threadId, setThreadId] = useState("");
 
@@ -37,7 +34,7 @@ function App() {
     setChatHistory((prev) => [...prev, {type: 'user', text: botTextArea}]);
     setLoadingOpacity(1);
 
-    fetch('http://127.0.0.1:5000/chat', {
+    fetch('http://127.0.0.1:3000/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,19 +49,8 @@ function App() {
           await handleStream(response.body);
         }
 
-        // return response.json();
       })
   }
-
-  const renderer = new marked.Renderer();
-
-  // Customize how links are rendered
-  renderer.link = ({ href, title, tokens }: Link) => {
-    return `<a href="${href}" target="_blank" rel="noopener noreferrer">${tokens}</a>`;
-  };
-
-  // Parse the Markdown with the custom renderer
-  marked.use({ renderer });
 
   async function handleStream(stream: ReadableStream<Uint8Array>) {
     const reader = stream.getReader();
@@ -94,14 +80,12 @@ function App() {
     if (index < text.length) {
       const chunk = text.substring(index, index + 10);
       tempContent += chunk; // Accumulate the valid content
-      setBotResponse(tempContent);
-      // setBotResponse(md.render(tempContent)); // Update the DOM with valid HTML
+      setBotResponse(tempContent.replace(/^["']|["']$/g, '').replace(/\\n/g, "\n").replace(/\\\\/g, "\\").replace(/\$\$/g, "$"));
       index += 10;
       setTimeout(() => streamText(text), 50);
     } else {
       setBotResponse("");
-      setChatHistory((prev) => [...prev, {type: 'bot', text: text}]);
-      // setBotResponse(md.render(text)); // Ensure the full text is added at the end
+      setChatHistory((prev) => [...prev, {type: 'bot', text: text.replace(/^["']|["']$/g, '').replace(/\\n/g, "\n").replace(/\\\\/g, "\\").replace(/\$\$/g, "$")}]);
     }
   }
 
@@ -110,37 +94,16 @@ function App() {
   }
 
 
-  const md = new MarkdownIt({
-    linkify: true, // Automatically converts URLs to links
-  });
-
-  md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
-
-    const aIndex = tokens[idx].attrIndex('target');
-
-    if (aIndex < 0) {
-      tokens[idx].attrPush(['target', '_blank']);
-      tokens[idx].attrPush(['rel', 'noopener noreferrer']);
-    } else if (tokens[idx]?.attrs) {
-      tokens[idx].attrs[aIndex][1] = '_blank';
-    }
-
-    return self.renderToken(tokens, idx, options);
-  };
-
-
   const components = {
-    a: ({ href, children }) => (
-      <a href={href} target="_blank" rel="noopener noreferrer">
-        {children}
+    a: (props: DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>) => (
+      <a {...props} target="_blank" rel="noopener noreferrer">
+        {props.children}
       </a>
     ),
   };
 
-  const responses = [];
-
-
   const botStyle = {backgroundColor: 'MistyRose', marginLeft: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px', fontWeight: "700", fontFamily: "'Inter', sans-serif"};
+
   const userStyle = {backgroundColor: '#F7D8FFAD', marginRight: "30px", borderRadius: '10px', color: 'black', paddingLeft: '5px', paddingRight: '5px', fontWeight: "700", fontFamily: "'Inter', sans-serif", width: "50%"};
 
   return (
@@ -154,8 +117,6 @@ function App() {
             <p style={{marginTop: 0}}>🌟 Welcome, Explorer! 🌟</p>
             <p>🚫 No bad words, inappropriate stuff, or links here! We only keep things fun and safe. 🌈</p>
             <p>🔒 Your conversations are never recorded with your name, and we never ask for any personal info! 😊</p>
-
-            <p>🎤 If you can’t read yet, no worries! Use your phone’s voice-to-text, and after you say “Hi,” tap the yellow 🎵 play button to hear me! You can even send pictures! 📸 I can see them! 👀</p>
             
             <p><strong>NOTE:</strong> ⏰ Want no timer and no ads? Just ask your teacher or parent to <a href="#">click here</a>! 😊 You get 15 free chats with me every day! 🎉</p>
 
@@ -174,16 +135,15 @@ function App() {
           </div>)
         })}
         {botResponse ? <div style={botStyle}>
-          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={components}>
+        <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]} components={components}>
             {botResponse}
-          </ReactMarkdown>
+        </ReactMarkdown>
         </div> : null}
         <div className='loading-symbol' style={{opacity: loadingOpacity}}>🌀</div>
       </div>
       <textarea id="bot-chat" onChange={handleBotTextAreaChange} style={{ fontWeight: "700", fontFamily: "'Inter', sans-serif", color: "black",fontSize: "24px",  borderRadius: "30px", border: "none", width: "100%", backgroundColor: "#F5F5F5", display: 'block', height: '204px', resize: 'none', padding: 20}}></textarea>
       <button id="send-message-button" onClick={sendBotMessage} style={{marginTop: "10px", width: "114px", height: "62px", backgroundColor: "#006DCC", display: 'block', color: "#FFFFFF", fontSize: "32px", fontWeight: "700", fontFamily: "'Inter', sans-serif", padding: 0}}>Reply</button>
       <br></br>
-      {/* <div id="bot-response" dangerouslySetInnerHTML={{ __html: botResponse }} ></div> */}
     </>
   )
 }

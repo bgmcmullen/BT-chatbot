@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.8.3",
     "katex": "^0.16.20",
     "markdown-it": "^14.1.0",
     "marked": "^15.0.6",
